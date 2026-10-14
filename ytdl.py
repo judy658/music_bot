@@ -52,6 +52,11 @@ def _friendly_error(exc: DownloadError | Exception) -> YTDLException:
             True,
         ),
         (
+            ("page needs to be reloaded",),
+            "YouTube akış istemcisini reddetti (çerezle tv_downgraded sorunu). Botu yeniden başlatıp tekrar dene.",
+            True,
+        ),
+        (
             ("private video", "this video is private"),
             "Bu video gizli, bot erişemiyor.",
             True,
@@ -116,6 +121,12 @@ def _base_opts() -> dict[str, Any]:
         opts["proxy"] = config.PROXY
     if config.PLAYER_CLIENTS:
         opts["extractor_args"] = {"youtube": {"player_client": config.PLAYER_CLIENTS}}
+    elif config.COOKIES_FILE:
+        # Cerezle giris yapinca varsayilan tv_downgraded istemcisi
+        # "The page needs to be reloaded" hatasi veriyor; onu disla.
+        opts["extractor_args"] = {
+            "youtube": {"player_client": ["default", "-tv_downgraded", "web_embedded"]}
+        }
     return opts
 
 

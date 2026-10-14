@@ -305,6 +305,11 @@ yapılmış bir YouTube oturumunun çerezleriyle** çalıştırmak.
    (Alternatif: `cookies.txt` içeriğini doğrudan `YOUTUBE_COOKIES` değişkenine yapıştır.)
 5. Servisi yeniden başlat (`Re-deploy`/`Restart`). Bot açılışta çerezi `cookies.txt` dosyasına yazar, yt-dlp onu kullanır.
 
+> Çerezle giriş yapılınca yt-dlp'nin varsayılan `tv_downgraded` istemcisi
+> `The page needs to be reloaded` hatası verebilir; bot bu durumda istemciyi otomatik olarak
+> `default,-tv_downgraded,web_embedded` yapar. Farklı bir değer denemek istersen Render'da
+> `PLAYER_CLIENTS` ortam değişkenini ayarla (ör. `default,-tv_downgraded,web_embedded`).
+
 > Çerezlerin süresi dolar; hata geri gelirse aynı adımlarla tazele.
 > İmajda ayrıca `deno` (YouTube'un artık zorunlu tuttuğu JavaScript çalışma ortamı) kurulur.
 > Çerez veya kararlı bir residential proxy olmadan veri merkezi IP'sinde kalıcı çözüm garanti değildir;
