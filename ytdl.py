@@ -48,7 +48,7 @@ def _friendly_error(exc: DownloadError | Exception) -> YTDLException:
         ),
         (
             ("confirm you're not a bot", "sign in to confirm you’re not a bot", "not a bot"),
-            "YouTube bot doğrulaması istedi. .env içindeki PLAYER_CLIENTS değerini değiştir.",
+            "YouTube bot doğrulaması istedi (sunucu IP'si engellendi). YouTube çerezlerini ayarla: COOKIES_FILE veya YOUTUBE_COOKIES.",
             True,
         ),
         (

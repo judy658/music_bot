@@ -64,13 +64,38 @@ def find_ffmpeg() -> str:
     return ""
 
 
+def _materialize_cookies() -> str:
+    configured = _str("COOKIES_FILE")
+    if configured:
+        return configured
+
+    import base64
+
+    raw = os.getenv("YOUTUBE_COOKIES", "")
+    encoded = os.getenv("YOUTUBE_COOKIES_B64", "").strip()
+    if encoded:
+        try:
+            raw = base64.b64decode(encoded).decode("utf-8", "replace")
+        except Exception:
+            raw = ""
+    if not raw.strip():
+        return ""
+
+    path = BASE_DIR / "cookies.txt"
+    try:
+        path.write_text(raw, encoding="utf-8")
+    except OSError:
+        return ""
+    return str(path)
+
+
 DISCORD_TOKEN = _str("DISCORD_TOKEN")
 PREFIX = _str("PREFIX", "!")
 
 FFMPEG_PATH = find_ffmpeg()
 YTDLP_EXE = shutil.which("yt-dlp") or ""
 
-COOKIES_FILE = _str("COOKIES_FILE")
+COOKIES_FILE = _materialize_cookies()
 PROXY = _str("PROXY")
 PLAYER_CLIENTS = [c.strip() for c in _str("PLAYER_CLIENTS").split(",") if c.strip()]
 

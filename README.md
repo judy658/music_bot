@@ -289,5 +289,26 @@ Botunu kendi bilgisayarının yerine **Render**'da ücretsiz katmanda çalışt�
 5. **Aynı tokenı iki yerde çalıştırma**: Render'da bot açıkken PC'de `start.bat` ile aynı bot çalışırsa
    ikisi birbirini Discord'dan düşürür. Birini kapat.
 
+### YouTube "bot doğrulaması" hatası (önemli)
+
+Render gibi **veri merkezi** IP'lerinden YouTube, isteği `Sign in to confirm you're not a bot` diye reddeder.
+Bu bir ayar hatası değil, IP itibarı sorunudur; `PLAYER_CLIENTS` değiştirmek çözmez. Çözüm: botu **giriş
+yapılmış bir YouTube oturumunun çerezleriyle** çalıştırmak.
+
+1. Bir tarayıcıda (mümkünse **ayrı/ikinci** bir Google hesabıyla; ana hesabınızı riske atmayın) youtube.com'a gir.
+2. "Get cookies.txt LOCALLY" tipi bir eklentiyle **`cookies.txt`** (Netscape biçimi) indir.
+3. Dosyayı base64'e çevir:
+   ```powershell
+   [Convert]::ToBase64String([IO.File]::ReadAllBytes("cookies.txt"))
+   ```
+4. Render panosu → Environment → `YOUTUBE_COOKIES_B64` = çıkan uzun metin.
+   (Alternatif: `cookies.txt` içeriğini doğrudan `YOUTUBE_COOKIES` değişkenine yapıştır.)
+5. Servisi yeniden başlat (`Re-deploy`/`Restart`). Bot açılışta çerezi `cookies.txt` dosyasına yazar, yt-dlp onu kullanır.
+
+> Çerezlerin süresi dolar; hata geri gelirse aynı adımlarla tazele.
+> İmajda ayrıca `deno` (YouTube'un artık zorunlu tuttuğu JavaScript çalışma ortamı) kurulur.
+> Çerez veya kararlı bir residential proxy olmadan veri merkezi IP'sinde kalıcı çözüm garanti değildir;
+> en sorunsuz seçenek botu evindeki/residential IP'li bilgisayarda çalıştırmaktır.
+
 > Render'ın dosya sistemi geçicidir; her yeniden başlatmada `cache/` temizlenir (akış modu etkilenmez).
 > `Dockerfile` imajı oluştururken `ffmpeg` ve `libopus0` sistem paketlerini kurar, sonra `requirements.txt`'i yükler.
