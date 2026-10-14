@@ -309,6 +309,8 @@ yapılmış bir YouTube oturumunun çerezleriyle** çalıştırmak.
 > `The page needs to be reloaded` hatası verebilir; bot bu durumda istemciyi otomatik olarak
 > `default,-tv_downgraded,web_embedded` yapar. Farklı bir değer denemek istersen Render'da
 > `PLAYER_CLIENTS` ortam değişkenini ayarla (ör. `default,-tv_downgraded,web_embedded`).
+> İmajda `deno` (JS çalışma ortamı) ve `yt-dlp-ejs` (YouTube JS challenge çözücü, `yt-dlp[default]`
+> ile gelir) kurulur; çerez olsa bile bu ikisi olmadan YouTube `The page needs to be reloaded` der.
 
 > Çerezlerin süresi dolar; hata geri gelirse aynı adımlarla tazele.
 > İmajda ayrıca `deno` (YouTube'un artık zorunlu tuttuğu JavaScript çalışma ortamı) kurulur.
