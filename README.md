@@ -268,15 +268,19 @@ Botunu kendi bilgisayarının yerine **Render**'da ücretsiz katmanda çalışt�
 2. **Token'ı GitHub'a değil, Render'a yaz**: `.env` dosyası `.gitignore` içinde olduğu için itilmez.
    Render panosunda bu token Render'ın `DISCORD_TOKEN` ortam değişkenine girilecek.
 
-3. **Render'da Web Service oluştur** (repo boşsa bu dosyalar itildikten sonra):
+3. **Render'da servisi oluştur.** ffmpeg + libopus sistem paketleri gerektiği için proje **Docker** ile
+   dağıtılır (`Dockerfile` bunları kurar). Native Python ortamında `apt` izni olmadığı için Docker şart.
    - render.com → **New → Web Service** → GitHub'da `judy658/music_bot` seç
+   - **Language/Environment: Docker** (Render kök dizindeki `Dockerfile`'ı otomatik seçer)
    - Plan: **Free**
-   - Build command: `bash render-build.sh`
-   - Start command: `python render.py`
+   - Build/Start komutlarını Render Dockerfile'dan alır; elle yazma.
    - Environment (**Advanced** altında):
      - `DISCORD_TOKEN` = bot tokenın
      - `APP_URL` = hizmetin adresi, ör. `https://muzik-bot.onrender.com`
    - **Deploy**
+
+   > Alternatif: repo kökündeki `render.yaml` sayesinde **New → Blueprint** diyerek de kurabilirsin;
+   > Render servisi Docker olarak, doğru ayarlarla otomatik açar.
 
 4. **Uyumayı engelle** — aşağıdaki ikisinden birini yap:
    - `APP_URL` doluysa bot kendini 4 dakikada bir ping'ler (gerektiğinde hizmet uyanır), **veya**
@@ -286,4 +290,4 @@ Botunu kendi bilgisayarının yerine **Render**'da ücretsiz katmanda çalışt�
    ikisi birbirini Discord'dan düşürür. Birini kapat.
 
 > Render'ın dosya sistemi geçicidir; her yeniden başlatmada `cache/` temizlenir (akış modu etkilenmez).
-> `render-build.sh` önce `ffmpeg` ve `libopus0` kurar, sonra paketleri yükler.
+> `Dockerfile` imajı oluştururken `ffmpeg` ve `libopus0` sistem paketlerini kurar, sonra `requirements.txt`'i yükler.
